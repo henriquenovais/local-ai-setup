@@ -1,0 +1,15 @@
+# Copy to models.ini (gitignored) and adjust n-gpu-layers after first load.
+# Paths are relative to the repository root when using scripts/start-router.sh
+# with absolute paths rewritten by the start script — keep filenames stable.
+
+[qwen25-coder-14b]
+model = models/qwen2.5-coder-14b-instruct-q4_k_m.gguf
+ctx-size = 8192
+n-gpu-layers = 20
+temp = 0.2
+
+[qwen3-14b]
+model = models/qwen3-14b-q4_k_m.gguf
+ctx-size = 4096
+n-gpu-layers = 18
+temp = 0.6

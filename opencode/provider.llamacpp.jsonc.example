@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "llamacpp/qwen25-coder-14b",
+  "providers": {
+    "llamacpp": {
+      "name": "llama.cpp (local)",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "http://127.0.0.1:8080/v1",
+        "apiKey": "local"
+      },
+      "models": {
+        "qwen25-coder-14b": {
+          "name": "Qwen2.5-Coder 14B (local)",
+          "tool_call": true,
+          "limit": {
+            "context": 8192,
+            "output": 4096
+          }
+        },
+        "qwen3-14b": {
+          "name": "Qwen3 14B (local)",
+          "tool_call": true,
+          "limit": {
+            "context": 4096,
+            "output": 4096
+          }
+        }
+      }
+    }
+  }
+}

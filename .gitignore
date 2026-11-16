@@ -1,0 +1,44 @@
+# Model weights directory (keep only the marker tracked)
+models/*
+!models/.gitkeep
+
+# Weight and checkpoint extensions
+*.gguf
+*.GGUF
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.npz
+*.npz.index
+*.npz.data-*
+*.h5
+*.msgpack
+
+# Archives often used for model packs / prebuilt bundles
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+
+# Caches and partial downloads
+.cache/
+**/.cache/
+*.part
+*.tmp
+
+# Secrets and local overlays
+.env
+opencode/opencode.local.jsonc
+
+# Downloaded llama.cpp binaries
+bin/
+
+# Logs
+*.log
+
+# Local router overrides (created from example)
+llama-cpp/models.ini

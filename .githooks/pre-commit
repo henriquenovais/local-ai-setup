@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MAX_BYTES=52428800
+
+while IFS= read -r -d '' path; do
+  if [[ ! -f "$path" ]]; then
+    continue
+  fi
+  size="$(wc -c <"$path" | tr -d ' ')"
+  if (( size > MAX_BYTES )); then
+    echo "Blocked: file exceeds 50 MiB: $path" >&2
+    exit 1
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACMR -z)
+
+exit 0
