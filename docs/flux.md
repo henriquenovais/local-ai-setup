@@ -15,7 +15,7 @@ Use **Q3_K_S** class weights on the RTX 3050 6GB Laptop GPU. Higher quants will 
 | `flux1-dev-Q3_K_S.gguf` | Diffusion UNet (GGUF) | `city96/FLUX.1-dev-gguf` |
 | `t5-v1_1-xxl-encoder-Q3_K_S.gguf` | T5 text encoder (GGUF) | `city96/t5-v1_1-xxl-encoder-gguf` |
 | `clip_l.safetensors` | CLIP-L | Comfy / BFL text-encoder packs |
-| `ae.safetensors` | VAE | FLUX.1-dev release assets |
+| `ae.safetensors` | VAE | Ungated mirror (`camenduru/FLUX.1-dev-ungated`); official BFL repo is gated |
 
 Download helper:
 

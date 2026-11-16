@@ -21,8 +21,8 @@ bash scripts/install-llama-cpp.sh
 The script:
 
 1. Requires `curl` and `tar`
-2. Resolves the latest `ggml-org/llama.cpp` GitHub release
-3. Downloads the Ubuntu x64 CUDA 13 server bundle (and cudart bundle)
+2. Walks recent `ggml-org/llama.cpp` GitHub releases (skips meta tags like `v1.0.0` that ship no binaries)
+3. Downloads the newest Ubuntu x64 CUDA 13.x server bundle (and matching cudart bundle)
 4. Extracts into `bin/llama-cpp/`
 5. Prints the path to `llama-server` and runs a short help/version probe
 

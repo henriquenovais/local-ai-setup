@@ -5,10 +5,20 @@ This folder holds an **example** provider block for OpenCode v2. It does not con
 ## Merge into your machine config
 
 1. Start `llama-server` router: `bash scripts/start-router.sh`
-2. Open `~/.config/opencode/opencode.jsonc`
-3. Copy the `providers.llamacpp` object from `provider.llamacpp.jsonc.example` as a **sibling** next to your existing providers (for example Flow / Google)
-4. Optionally set `"model": "llamacpp/qwen25-coder-14b"` when you want the local default
-5. Keep cloud `apiKey` values only in the machine config — never copy them into this repository
+2. Run the idempotent merger (preferred):
+
+```bash
+bash scripts/merge-opencode-llamacpp.sh
+```
+
+That script:
+
+- Backs up `~/.config/opencode/opencode.jsonc` to a timestamped `.bak-*` beside it
+- Inserts only `providers.llamacpp` from `provider.llamacpp.jsonc.example`
+- Leaves the top-level `"model"` unchanged (switch locals via OpenCode `/models`)
+- Never writes cloud `apiKey` values into this repository
+
+Manual alternative: copy the `providers.llamacpp` object from `provider.llamacpp.jsonc.example` as a **sibling** next to your existing providers. Keep cloud `apiKey` values only in the machine config.
 
 ## Endpoint
 

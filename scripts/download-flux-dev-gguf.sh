@@ -10,12 +10,22 @@ mkdir -p "$DEST_DIR"
 download() {
   local url="$1"
   local out="$2"
+  # -f: path exists and is a regular file.
   if [[ -f "$out" ]]; then
     echo "Already present: $out"
     return 0
   fi
   echo "Downloading $(basename "$out") ..."
-  curl -fL --retry 3 --retry-delay 2 -C - -o "${out}.part" "$url"
+  # --http1.1: avoid intermittent HTTP/2 stream CANCEL (curl exit 92) on large HF files.
+  # --retry 5 / --retry-all-errors: retry transient network failures, not only HTTP 5xx.
+  # -C -: resume from the existing .part byte offset when present.
+  # ${HF_TOKEN:+-H "Authorization: Bearer $HF_TOKEN"}: add auth header only when HF_TOKEN is set.
+  curl -fL --http1.1 --retry 5 --retry-delay 2 --retry-all-errors \
+    -C - \
+    ${HF_TOKEN:+-H "Authorization: Bearer ${HF_TOKEN}"} \
+    -o "${out}.part" \
+    "$url"
+  # mv -f: replace destination if a stale partial somehow shares the final name.
   mv -f "${out}.part" "$out"
 }
 
@@ -34,9 +44,9 @@ download \
   "https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/clip_l.safetensors" \
   "$DEST_DIR/clip_l.safetensors"
 
-# VAE
+# VAE (ungated mirror of the official FLUX.1-dev ae.safetensors; BFL repo is gated/401 without HF auth)
 download \
-  "https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/ae.safetensors" \
+  "https://huggingface.co/camenduru/FLUX.1-dev-ungated/resolve/main/ae.safetensors" \
   "$DEST_DIR/ae.safetensors"
 
 echo "Verifying gitignore fence..."
