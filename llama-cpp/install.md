@@ -22,16 +22,24 @@ The script:
 
 1. Requires `curl` and `tar`
 2. Walks recent `ggml-org/llama.cpp` GitHub releases (skips meta tags like `v1.0.0` that ship no binaries)
-3. Downloads the newest Ubuntu x64 CUDA 13.x server bundle (and matching cudart bundle)
-4. Extracts into `bin/llama-cpp/`
-5. Prints the path to `llama-server` and runs a short help/version probe
+3. Downloads the newest Ubuntu x64 CUDA 13.x server bundle and matching cudart bundle
+4. Extracts both into `bin/llama-cpp/`
+5. Flattens `cudart-*.tar.gz` shared libraries (`libcudart.so.13`, `libcublas.so.13`, `libcublasLt.so.13`) into `bin/llama-cpp/` so `libggml-cuda.so` can resolve them
+6. Prints the path to `llama-server` and runs a short help/version probe
+
+---
 
 ## Manual install (same assets)
 
 1. Open https://github.com/ggml-org/llama.cpp/releases
 2. Download `llama-*-bin-ubuntu-cuda-13*-x64.tar.gz` and matching `cudart-llama-*-bin-ubuntu-cuda-13*-x64.tar.gz`
-3. Extract both into `bin/llama-cpp/`
-4. Confirm: `bin/llama-cpp/llama-server --help` (or `-h`)
+3. Extract both archives into `bin/llama-cpp/`
+4. If `cudart` extracts into a subdirectory (e.g. `bin/llama-cpp/cudart-*/`), move all `.so*` files directly into `bin/llama-cpp/`
+5. Confirm device detection:
+   ```bash
+   LD_LIBRARY_PATH="$PWD/bin/llama-cpp" bin/llama-cpp/llama-server --list-devices
+   ```
+   Verify `CUDA0:` appears in the output.
 
 ## After install
 

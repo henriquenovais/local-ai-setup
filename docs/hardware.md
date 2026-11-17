@@ -31,5 +31,14 @@ Snapshot of the machine this repository targets. Re-check with `nvidia-smi` and 
 
 ## VRAM contention
 
-- Desktop apps such as Handy can hold roughly 2 GiB VRAM
-- Quit GPU-heavy apps before loading a 14B model
+- Desktop apps such as Handy can hold roughly 2 GiB VRAM when hardware acceleration is set to GPU or Auto.
+- **Configuring Handy for CPU/RAM:**
+  To free ~1.0–2.2 GiB VRAM for local models, configure Handy to run its transcription model on the CPU and system RAM:
+  1. Quit Handy completely.
+  2. In `~/.local/share/com.pais.handy/settings_store.json`, set:
+     ```json
+     "transcribe_accelerator": "cpu",
+     "ort_accelerator": "cpu"
+     ```
+  3. Relaunch Handy. Verify via `nvidia-smi` that Handy is no longer listed in GPU memory and processes display `handy --transcribe-worker --cpu-only`.
+- Always verify free VRAM with `nvidia-smi` before launching a 14B model (aim for ~5.5 GiB free).

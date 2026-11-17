@@ -45,7 +45,18 @@ PY
   echo "Created $PRESET from example (gitignored)."
 fi
 
-export LD_LIBRARY_PATH="$REPO_ROOT/bin/llama-cpp:${LD_LIBRARY_PATH:-}"
+# Locate any nested cudart directory defensively in case libraries were not flattened.
+# -d: checks if directory exists; head -n 1 takes the first match if multiple exist.
+CUDART_DIR="$(find "$REPO_ROOT/bin/llama-cpp" -maxdepth 2 -type d -name "cudart*" 2>/dev/null | head -n 1 || true)"
+# -n: checks if string length is non-zero (i.e. cudart directory found).
+if [[ -n "$CUDART_DIR" ]]; then
+  # Prepend both primary binary directory and nested cudart directory to LD_LIBRARY_PATH.
+  # ${LD_LIBRARY_PATH:-}: parameter expansion fallback prevents unbound variable error under set -u.
+  export LD_LIBRARY_PATH="$REPO_ROOT/bin/llama-cpp:$CUDART_DIR:${LD_LIBRARY_PATH:-}"
+else
+  # Fallback to standard binary directory.
+  export LD_LIBRARY_PATH="$REPO_ROOT/bin/llama-cpp:${LD_LIBRARY_PATH:-}"
+fi
 
 exec "$SERVER" \
   --models-dir "$MODELS_DIR" \

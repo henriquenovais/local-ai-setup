@@ -100,6 +100,27 @@ if [[ ! -x "$DEST/llama-server" ]]; then
   fi
 fi
 
+# Normalize CUDA runtime libraries: cudart archive unpacks into a subfolder.
+# Co-locating .so files in $DEST ensures libggml-cuda.so can resolve them via LD_LIBRARY_PATH.
+# -d: checks if directory exists; find locates any nested cudart subfolder.
+cudart_dir="$(find "$DEST" -maxdepth 2 -type d -name "cudart*" | head -n 1 || true)"
+# -n: checks if string length is greater than 0.
+if [[ -n "$cudart_dir" ]]; then
+  # nullglob: unmatched globs expand to nothing rather than the literal pattern string.
+  shopt -s nullglob
+  # Iterate and move all shared libraries (.so / .so.version) from the cudart subfolder into $DEST.
+  for lib in "$cudart_dir"/*.so*; do
+    # -f: regular file (or symlink).
+    if [[ -f "$lib" ]]; then
+      # 2>/dev/null: silence warnings if destination file is being overwritten.
+      mv "$lib" "$DEST"/ 2>/dev/null || true
+    fi
+  done
+  shopt -u nullglob
+  # rmdir cleans up the subfolder if it is now empty.
+  rmdir "$cudart_dir" 2>/dev/null || true
+fi
+
 SERVER="$DEST/llama-server"
 if [[ ! -x "$SERVER" ]]; then
   SERVER="$(find "$DEST" -type f -name llama-server | head -n 1 || true)"
@@ -112,6 +133,8 @@ if [[ -z "$SERVER" || ! -f "$SERVER" ]]; then
 fi
 
 chmod +x "$SERVER" || true
+# Prepend $DEST to LD_LIBRARY_PATH so dynamic linker finds libggml-base and CUDA runtime libraries.
+export LD_LIBRARY_PATH="$DEST:${LD_LIBRARY_PATH:-}"
 echo "Installed: $SERVER"
 if "$SERVER" --version >/dev/null 2>&1; then
   "$SERVER" --version

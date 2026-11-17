@@ -36,9 +36,10 @@ Full contract: [docs/directory-layout.md](docs/directory-layout.md).
 ## Workflow
 
 1. Install prebuilt CUDA `llama-server` into `bin/` (`scripts/install-llama-cpp.sh`, see `llama-cpp/install.md`).
-2. Start router mode with `--models-max 1` (`scripts/start-router.sh`).
-3. Load **one** model (Web UI at `http://127.0.0.1:8080` or API). To try another model, unload/replace — expect a full reload (seconds to minutes), not a millisecond hot-swap.
-4. Point OpenCode at `http://127.0.0.1:8080/v1` using the example under `opencode/`.
+2. Run the smoke test to verify binary flags and CUDA acceleration (`bash scripts/smoke-llama-server.sh`).
+3. Start router mode with `--models-max 1` (`scripts/start-router.sh`).
+4. Load **one** model (Web UI at `http://127.0.0.1:8080` or API). To try another model, unload/replace — expect a full reload (seconds to minutes), not a millisecond hot-swap.
+5. Point OpenCode at `http://127.0.0.1:8080/v1` using the example under `opencode/`.
 
 ## OpenCode
 
