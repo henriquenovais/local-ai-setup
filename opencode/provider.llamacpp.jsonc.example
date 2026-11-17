@@ -21,8 +21,18 @@
         "qwen3-14b": {
           "name": "Qwen3 14B (local)",
           "tool_call": true,
+          "reasoning": true,
           "limit": {
-            "context": 4096,
+            "context": 32768,
+            "output": 4096
+          }
+        },
+        "qwen3-14b-q4_k_m": {
+          "name": "Qwen3 14B Q4_K_M (local)",
+          "tool_call": true,
+          "reasoning": true,
+          "limit": {
+            "context": 32768,
             "output": 4096
           }
         }

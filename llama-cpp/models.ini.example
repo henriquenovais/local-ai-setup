@@ -10,6 +10,16 @@ temp = 0.2
 
 [qwen3-14b]
 model = models/qwen3-14b-q4_k_m.gguf
-ctx-size = 4096
-n-gpu-layers = 18
+ctx-size = 32768
+cache-type-k = q4_0
+cache-type-v = q4_0
+n-gpu-layers = 16
+temp = 0.6
+
+[qwen3-14b-q4_k_m]
+model = models/qwen3-14b-q4_k_m.gguf
+ctx-size = 32768
+cache-type-k = q4_0
+cache-type-v = q4_0
+n-gpu-layers = 16
 temp = 0.6

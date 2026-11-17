@@ -12,7 +12,7 @@ Use this checklist after the router is installed. Model downloads can wait until
    `curl -s http://127.0.0.1:8080/v1/models`
 
 4. **OpenCode model picker**  
-   Start OpenCode and run `/models`. Confirm `llamacpp/qwen25-coder-14b` and `llamacpp/qwen3-14b` appear after the merge.
+   Start OpenCode and run `/models`. Confirm `llamacpp/qwen25-coder-14b`, `llamacpp/qwen3-14b`, and `llamacpp/qwen3-14b-q4_k_m` appear after the merge.
 
 5. **One short chat** (after weights exist)  
    Select `llamacpp/qwen25-coder-14b`, send a trivial prompt, confirm a streamed reply.

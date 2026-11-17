@@ -62,6 +62,8 @@ exec "$SERVER" \
   --models-dir "$MODELS_DIR" \
   --models-max 1 \
   --models-preset "$PRESET" \
-  -c 8192 \
+  -c 32768 \
+  --cache-type-k q4_0 \
+  --cache-type-v q4_0 \
   --host 127.0.0.1 \
   --port 8080

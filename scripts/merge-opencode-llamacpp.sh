@@ -81,4 +81,4 @@ print("unchanged=False")
 PY
 
 echo "Merged providers.llamacpp into $CONFIG (top-level model unchanged)."
-echo "Pick local models in OpenCode via /models (llamacpp/qwen25-coder-14b, llamacpp/qwen3-14b)."
+echo "Pick local models in OpenCode via /models (llamacpp/qwen25-coder-14b, llamacpp/qwen3-14b, llamacpp/qwen3-14b-q4_k_m)."
