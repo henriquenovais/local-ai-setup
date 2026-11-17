@@ -61,24 +61,31 @@ if "providers" not in example or "llamacpp" not in example["providers"]:
     sys.exit(1)
 
 providers = config.setdefault("providers", {})
-# Idempotent: already merged.
-if "llamacpp" in providers:
-    print("has_llamacpp=True")
-    print("provider_ids=" + ",".join(sorted(providers.keys())))
-    print("unchanged=True")
-    sys.exit(0)
+example_llamacpp = example["providers"]["llamacpp"]
+changed = False
 
-providers["llamacpp"] = example["providers"]["llamacpp"]
+if "llamacpp" not in providers:
+    providers["llamacpp"] = example_llamacpp
+    changed = True
+else:
+    # Deep merge models dictionary so newly added models appear in existing installations.
+    target_models = providers["llamacpp"].setdefault("models", {})
+    for model_id, model_def in example_llamacpp.get("models", {}).items():
+        if model_id not in target_models:
+            target_models[model_id] = model_def
+            changed = True
+
 # Intentionally do not copy example["model"] — keep the machine default.
+if changed:
+    config_path.write_text(
+        json.dumps(config, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
-config_path.write_text(
-    json.dumps(config, indent=2, ensure_ascii=False) + "\n",
-    encoding="utf-8",
-)
 print("has_llamacpp=True")
 print("provider_ids=" + ",".join(sorted(providers.keys())))
-print("unchanged=False")
+print(f"unchanged={not changed}")
 PY
 
 echo "Merged providers.llamacpp into $CONFIG (top-level model unchanged)."
-echo "Pick local models in OpenCode via /models (llamacpp/qwen25-coder-14b, llamacpp/qwen3-14b, llamacpp/qwen3-14b-q4_k_m)."
+echo "Pick local models in OpenCode via /models (llamacpp/qwen25-coder-14b, llamacpp/qwen3-14b, llamacpp/qwen3-14b-q4_k_m, llamacpp/gemma4-12b)."

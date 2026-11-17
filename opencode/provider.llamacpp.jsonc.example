@@ -35,6 +35,15 @@
             "context": 32768,
             "output": 4096
           }
+        },
+        "gemma4-12b": {
+          "name": "Gemma 4 12B (local)",
+          "tool_call": true,
+          "reasoning": true,
+          "limit": {
+            "context": 262144,
+            "output": 4096
+          }
         }
       }
     }

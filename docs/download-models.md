@@ -29,6 +29,17 @@ bash scripts/download-qwen3-14b.sh
 - Remote file: `Qwen_Qwen3-14B-Q4_K_M.gguf` (~9 GiB)
 - Local path: `models/qwen3-14b-q4_k_m.gguf`
 
+## Gemma 4 12B (Q4_K_M)
+
+```bash
+bash scripts/download-gemma4-12b.sh
+```
+
+- Source: `unsloth/gemma-4-12b-it-GGUF`
+- Remote file: `gemma-4-12b-it-Q4_K_M.gguf` (~7.1 GiB)
+- Local path: `models/gemma-4-12b-it-q4_k_m.gguf`
+- Native 256k context window (`ctx-size = 262144`) with `q4_0` KV cache (~1.27 GiB cache footprint)
+
 ## FLUX.1 Dev
 
 ```bash
